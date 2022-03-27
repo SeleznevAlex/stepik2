@@ -1,0 +1,40 @@
+import json
+
+kin1 = {
+    "name": "A",
+    "name_parents": []
+}
+
+kin2 = {
+    "name": "B",
+    "name_parents": ["A", "C"]
+}
+
+kin3 = {
+    "name": "C",
+    "name_parents": ["A"]
+}
+
+kins = [kin1, kin2, kin3]
+#kins = [{"name": "B", "name_parents": ["A", "C"]}, {"name": "C", "name_parents": ["A"]}, {"name": "A", "name_parents": []}, {"name": "D", "name_parents":["C", "F"]}, {"name": "E", "name_parents":["D"]}, {"name": "F", "name_parents":[]}]
+data = json.dumps(kins, indent=4, sort_keys=True)
+kins_json = json.loads(data)
+
+name_parents = {}
+all_parents = {''}
+for kin in kins_json:
+    kin_name = kin["name"]
+    parents = kin["name_parents"]
+
+    if kin_name not in name_parents:
+        name_parents[kin_name] = 1
+    else:
+        name_parents[kin_name] += 1
+
+    for parent in parents:
+        if parent not in name_parents:
+            name_parents[parent] = 1
+        else:
+            name_parents[parent] += 1
+
+print(name_parents)
